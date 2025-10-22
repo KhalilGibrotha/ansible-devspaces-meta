@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ansible-devspaces-meta"
+version = "0.1.0"
+description = "Meta repository wrapping standard Ansible tooling with customizations for DevSpaces"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Ansible DevSpaces Team"}
+]
+keywords = ["ansible", "devspaces", "automation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: System :: Systems Administration",
+]
+dependencies = [
+    "ansible-core>=2.15.0,<3.0.0",
+    "ansible>=8.0.0,<9.0.0",
+    "ansible-lint>=6.17.0",
+    "jinja2>=3.1.0",
+    "pyyaml>=6.0",
+    "jmespath>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-ansible>=4.0.0",
+]
+
+[project.scripts]
+ansible-devspaces = "ansible_devspaces.cli:main"
+
+[tool.setuptools]
+packages = ["ansible_devspaces"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+[tool.ansible-lint]
+skip_list = []
+warn_list = []

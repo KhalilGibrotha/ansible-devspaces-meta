@@ -1,0 +1,44 @@
+{
+  "name": "Ansible DevSpaces",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11",
+      "installTools": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.ansible",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "ansible.python.interpreterPath": "/usr/local/bin/python",
+        "files.associations": {
+          "*.yml": "ansible",
+          "*.yaml": "ansible"
+        }
+      }
+    }
+  },
+  "postCreateCommand": "pip install -e .[dev]",
+  "forwardPorts": [],
+  "remoteUser": "vscode"
+}

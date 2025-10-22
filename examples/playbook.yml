@@ -1,0 +1,31 @@
+---
+- name: Example Ansible DevSpaces Playbook
+  hosts: localhost
+  gather_facts: true
+  become: false
+
+  tasks:
+    - name: Display system information
+      ansible.builtin.debug:
+        msg: |
+          System: {{ ansible_system }}
+          Distribution: {{ ansible_distribution | default('Unknown') }}
+          Python version: {{ ansible_python_version }}
+
+    - name: Ensure a directory exists
+      ansible.builtin.file:
+        path: /tmp/ansible-devspaces-test
+        state: directory
+        mode: '0755'
+
+    - name: Create a test file
+      ansible.builtin.copy:
+        content: |
+          This is a test file created by Ansible DevSpaces
+          Timestamp: {{ ansible_date_time.iso8601 }}
+        dest: /tmp/ansible-devspaces-test/test.txt
+        mode: '0644'
+
+    - name: Display success message
+      ansible.builtin.debug:
+        msg: "Playbook executed successfully in DevSpaces environment!"

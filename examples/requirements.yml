@@ -1,0 +1,13 @@
+---
+collections:
+  # Example collections that might be useful in DevSpaces
+  - name: community.general
+    version: ">=7.0.0"
+  - name: ansible.posix
+    version: ">=1.5.0"
+
+roles:
+  # Example roles
+  # - name: example-role
+  #   src: https://github.com/example/ansible-role-example
+  #   version: main
