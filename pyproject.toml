@@ -24,8 +24,8 @@ classifiers = [
     "Topic :: System :: Systems Administration",
 ]
 dependencies = [
-    "ansible-core>=2.15.0,<3.0.0",
-    "ansible>=8.0.0,<9.0.0",
+    "ansible-core>=2.16.13,<3.0.0",
+    "ansible>=9.0.0,<11.0.0",
     "ansible-lint>=6.17.0",
     "jinja2>=3.1.0",
     "pyyaml>=6.0",
