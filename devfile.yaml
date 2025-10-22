@@ -1,0 +1,70 @@
+schemaVersion: 2.2.0
+metadata:
+  name: ansible-devspaces-team
+attributes:
+  # Optional: mark this workspace read/write policy, etc.
+components:
+  - name: tools
+    container:
+      # Pick an image that suits your team. You can either:
+      # A) Use a Dev Spaces Ansible image, then install ansible-dev-tools on start, or
+      # B) Use YOUR EE image preloaded with ansible-dev-tools + your pins.
+      image: quay.io/devspaces/ansible-workspace:latest
+      memoryLimit: 4Gi
+      cpuLimit: 2
+      mountSources: true
+      env:
+        - name: ANSIBLE_FORCE_COLOR
+          value: "1"
+        - name: PIP_DISABLE_PIP_VERSION_CHECK
+          value: "1"
+commands:
+  # Install/refresh Ansible Dev Tools in case the base image doesn't include it
+  - id: setup-adt
+    exec:
+      component: tools
+      commandLine: |
+        python3 -m pip install --upgrade ansible-dev-tools
+        # optional: lock tools (ansible-lint, molecule, etc.) here
+      workingDir: ${PROJECT_SOURCE}
+  # Example CI-like tasks available from the Dev Spaces "Run Task" menu
+  - id: lint
+    exec:
+      component: tools
+      commandLine: ansible-lint
+      workingDir: ${PROJECT_SOURCE}
+  - id: molecule-test
+    exec:
+      component: tools
+      commandLine: molecule test
+      workingDir: ${PROJECT_SOURCE}
+  # Run ansible-navigator with local EE
+  - id: navigator-run
+    exec:
+      component: tools
+      commandLine: ansible-navigator run --execution-environment-image quay.io/devspaces/ansible-workspace:latest
+      workingDir: ${PROJECT_SOURCE}
+  # Pre-commit setup
+  - id: setup-pre-commit
+    exec:
+      component: tools
+      commandLine: |
+        python3 -m pip install pre-commit
+        pre-commit install
+      workingDir: ${PROJECT_SOURCE}
+
+# Clone multiple repos into the workspace
+projects:
+  - name: platform-infra
+    git:
+      remotes: { origin: "https://github.com/YourOrg/platform-infra.git" }
+    clonePath: src/platform-infra
+  - name: aap-content
+    git:
+      remotes: { origin: "https://github.com/YourOrg/aap-content.git" }
+    clonePath: src/aap-content
+  - name: windows-roles
+    git:
+      remotes: { origin: "https://github.com/YourOrg/windows-roles.git" }
+    clonePath: src/windows-roles
+  # You can add as many as you want; Dev Spaces will clone them all.
